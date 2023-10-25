@@ -16,7 +16,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 
     implementation 'commons-cli:commons-cli:1.4'
-
+    testImplementation 'com.github.stefanbirkner:system-rules:1.19.0' // Use the latest version
 }
 
 tasks.test {

@@ -46,7 +46,7 @@ public class ImageDownloadService {
             }
 
         } catch (ParseException e) {
-            System.err.println("Error occurred while reading from CLI : " + e.getMessage());
+            System.out.println("Error occurred while reading from CLI : " + e.getMessage());
         }
     }
 
