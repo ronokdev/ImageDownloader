@@ -28,5 +28,5 @@ If as a developer you want to do further changes then, first change the code bas
 Here,
 - `./gradlew build` : will build the application with the new changes and create the jar file
 - `java -jar build/libs/ImageDownloader-1.0-SNAPSHOT.jar` : will run the application 
-- `./-i src/test/resources/input.txt` : indicates which file to read for URL
+- `-i src/test/resources/input.txt` : indicates which file to read for URL
 - `-o src/test/resources/download/` : indicates where it will download the images
