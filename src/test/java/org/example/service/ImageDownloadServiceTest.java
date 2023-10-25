@@ -6,7 +6,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class ImageDownloadServiceTest {
@@ -33,9 +38,12 @@ class ImageDownloadServiceTest {
     }
 
     @Test
-    public void ShouldDownloadTwoImages() {
+    public void ShouldDownloadTwoImages() throws InterruptedException {
         String[] args = { "-i", inputDir , "-o", outputDir };
         imageDownloadService.createCommandLine(args);
+
+        Thread.sleep(2000);
+
         assertEquals(Objects.requireNonNull(new File(outputDir).listFiles()).length,2);
     }
 

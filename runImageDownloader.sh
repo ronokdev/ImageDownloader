@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JAR_FILE="ImageDownloader-1.0-SNAPSHOT.jar"
+JAR_FILE="src/main/resources/ImageDownloader-1.0-SNAPSHOT.jar"
 
 # Function to run the JAR file
 run_jar() {

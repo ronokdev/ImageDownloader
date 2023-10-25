@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.cli.CommandLine;
@@ -20,6 +22,7 @@ import org.example.service.NioImageDownloader.NioDownloader;
 
 public class ImageDownloadService {
 
+    private static final int maxConcurrentDownloads = 5;
     private static final String imageRegex = ".*\\.(jpg|jpeg|png|gif|bmp|tiff|webp|svg|ico)$";
     private static final String urlRegex = "^(https?|ftp)://[A-Za-z0-9.-]+(:[0-9]+)?(/[A-Za-z0-9%.-]+)*$";
     ImageDownload imageDownload = new NioDownloader();
@@ -37,17 +40,21 @@ public class ImageDownloadService {
 
             // Retrieve the values of the specified options
             String inputFile = cmd.getOptionValue("i");
-            List<String> strings = readURLsFromFile(inputFile);
-
+            List<String> urlList = readURLsFromFile(inputFile);
             String outputDir = cmd.getOptionValue("o");
-
-            for (var x : strings) {
-                startDownload(x, outputDir);
-            }
+            initiateBatchDownload(urlList, outputDir);
 
         } catch (ParseException e) {
             System.out.println("Error occurred while reading from CLI : " + e.getMessage());
         }
+    }
+
+    public void initiateBatchDownload(List<String> urls, String outPutDir) {
+        ExecutorService executor = Executors.newFixedThreadPool(maxConcurrentDownloads);
+        for (var url : urls) {
+            executor.submit(() -> startDownload(url, outPutDir));
+        }
+        executor.shutdown();
     }
 
     public static List<String> readURLsFromFile(String filePath) {
